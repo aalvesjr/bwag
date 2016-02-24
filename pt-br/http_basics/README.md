@@ -102,9 +102,9 @@ http.ListenAndServe(":8080", http.FileServer(http.Dir(".")))
 A função `http.ListenAndServe` é usada para iniciar o servidor, ele se ligará
 ao endereço que nós demos (`:8080`) e quando este receber uma requisição HTTP,
 ele vai entregá-lo ao `http.Handler` que nós fornecemos como segundo argumento.
-Em nosso caso é o `http.FilseServer`.
+Em nosso caso é o `http.FileServer`.
 
-A função `http.FilseServer` constrói uma `http.Handler` que irá servir um
+A função `http.FileServer` constrói uma `http.Handler` que irá servir um
 diretório inteiro de arquivos e descobrir qual arquivo para saque com base no
 caminho da solicitação.
 Nós dissemos para o FileServer servir o diretório de trabalho atual com
