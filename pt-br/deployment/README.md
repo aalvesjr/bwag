@@ -102,13 +102,30 @@ aplicação web estiver em `GOPATH/github.com/codegangsta/bwag/deployment`, meu
 web: deployment
 ```
 
-Especificamente no caso de aplicações Go, nós também teremos que criar um
-arquivo `.godir` para indicar ao Heroku qual diretório é de fato o nosso
-diretório de pacotes.
+## Dependências
 
+Nossa aplicação de exemplo usa o `github.com/russross/blackfriday`, um pacote que
+não faz parte da biblioteca padrão. Para garantir que esse pacote estará disponível
+na versão correta na hora da compilação a prática comum no Go é salvar uma cópia ("vendor")
+da versão do `github.com/russross/blackfriday` que estamos usando localmente dentro
+da base de código.
+
+Usaremos a ferramenta `godep` para gravar essa dependência no diretório `vendor`
+da nossa aplicação.
+
+```console
+$ go get -u github.com/tools/godep   # Baixar a ferramenta
+$ godep save ./...
 ```
-deployment
-```
+
+A partir do Go 1.6 o diretório `vendor` é o local padrão usado pelo Go para código
+de dependências ("vendorizado"). É lá que o godep faz uma cópia do `github.com/russross/blackfriday`
+e das dependências transitivas (dependências do próprio `blackfriday`).
+
+O godep também cria um arquivo `Godeps/Godeps.json` para gravar o que foi encontrado.
+
+Tanto o diretório `vendor/` quanto o `Godeps/` devem ser comitados para o git. O Heroku usa
+as informações salvas nesses diretórios para compilar corretamente aplicações em Go.
 
 ## Publicação
 
@@ -122,9 +139,9 @@ git add -A
 git commit -m "Initial Commit"
 ```
 
-Crie a sua aplicação no Heroku (especificando o buildpack do Go)
+Crie a sua aplicação no Heroku:
 ``` bash
-heroku create -b https://github.com/kr/heroku-buildpack-go.git
+heroku create
 ```
 
 Envie o código para o Heroku e veja a sua aplicação ser publicada!
