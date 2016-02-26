@@ -18,34 +18,34 @@ and how to create your own custom middleware.
 package main
 
 import (
-    "log"
-    "net/http"
+	"log"
+	"net/http"
 
-    "github.com/codegangsta/negroni"
+	"github.com/codegangsta/negroni"
 )
 
 func main() {
-    // Middleware stack
-    n := negroni.New(
-        negroni.NewRecovery(),
-        negroni.HandlerFunc(MyMiddleware),
-        negroni.NewLogger(),
-        negroni.NewStatic(http.Dir("public")),
-    )
+	// Middleware stack
+	n := negroni.New(
+		negroni.NewRecovery(),
+		negroni.HandlerFunc(myMiddleware),
+		negroni.NewLogger(),
+		negroni.NewStatic(http.Dir("public")),
+	)
 
-    n.Run(":8080")
+	n.Run(":8080")
 }
 
-func MyMiddleware(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
-    log.Println("Logging on the way there...")
+func myMiddleware(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
+	log.Println("Logging on the way there...")
 
-    if r.URL.Query().Get("password") == "secret123" {
-        next(rw, r)
-    } else {
-        http.Error(rw, "Not Authorized", 401)
-    }
+	if r.URL.Query().Get("password") == "secret123" {
+		next(rw, r)
+	} else {
+		http.Error(rw, "Not Authorized", 401)
+	}
 
-    log.Println("Logging on the way back...")
+	log.Println("Logging on the way back...")
 }
 ```
 

@@ -13,7 +13,7 @@ func Test_HelloWorld(t *testing.T) {
 	}
 
 	res := httptest.NewRecorder()
-	HelloWorld(res, req)
+	helloWorld(res, req)
 
 	exp := "Hello World"
 	act := res.Body.String()
