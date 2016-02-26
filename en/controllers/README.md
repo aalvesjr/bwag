@@ -15,7 +15,7 @@ the problems we are trying to solve. Say we are using the `render` library that
 we talked about in previous chapters:
 
 ``` go
-var Render = render.New(render.Options{})
+var Render = render.New()
 ```
 
 If we want our `http.Handler`s to be able access our `render.Render` instance,
@@ -29,7 +29,7 @@ great idea, and we should be using it most of the time. The implementation ends
 up looking like this:
 
 ``` go
-func MyHandler(r *render.Render) http.Handler {
+func myHandler(r *render.Render) http.Handler {
   return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
     // now we can access r
   })
@@ -61,13 +61,13 @@ import "net/http"
 // Action defines a standard function signature for us to use when creating
 // controller actions. A controller action is basically just a method attached to
 // a controller.
-type Action func(rw http.ResponseWriter, r *http.Request) error
+type action func(rw http.ResponseWriter, r *http.Request) error
 
 // This is our Base Controller
-type AppController struct{}
+type appController struct{}
 
 // The action function helps with error handling in a controller
-func (c *AppController) Action(a Action) http.Handler {
+func (c *appController) action(a action) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		if err := a(rw, r); err != nil {
 			http.Error(rw, err.Error(), 500)
@@ -89,23 +89,23 @@ import (
 	"gopkg.in/unrolled/render.v1"
 )
 
-type MyController struct {
-	AppController
+type myController struct {
+	appController
 	*render.Render
 }
 
-func (c *MyController) Index(rw http.ResponseWriter, r *http.Request) error {
+func (c *myController) index(rw http.ResponseWriter, r *http.Request) error {
 	c.JSON(rw, 200, map[string]string{"Hello": "JSON"})
 	return nil
 }
 
 func main() {
-	c := &MyController{Render: render.New(render.Options{})}
-	http.ListenAndServe(":8080", c.Action(c.Index))
+	c := &myController{Render: render.New()}
+	http.ListenAndServe(":8080", c.action(c.index))
 }
 ```
 
 ## Exercises
-1. Extend `MyController` to have multiple actions for different routes in your application.
+1. Extend `myController` to have multiple actions for different routes in your application.
 2. Play with more controller implementations, get creative.
-3. Override the `Action` method on `MyController` to render a error HTML page.
+3. Override the `action` method on `myController` to render a error HTML page.

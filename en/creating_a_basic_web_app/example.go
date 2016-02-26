@@ -7,12 +7,12 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/markdown", GenerateMarkdown)
+	http.HandleFunc("/markdown", generateMarkdown)
 	http.Handle("/", http.FileServer(http.Dir("public")))
 	http.ListenAndServe(":8080", nil)
 }
 
-func GenerateMarkdown(rw http.ResponseWriter, r *http.Request) {
+func generateMarkdown(rw http.ResponseWriter, r *http.Request) {
 	markdown := blackfriday.MarkdownCommon([]byte(r.FormValue("body")))
 	rw.Write(markdown)
 }

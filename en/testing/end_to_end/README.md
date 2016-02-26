@@ -16,11 +16,11 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-func HelloWorld(res http.ResponseWriter, req *http.Request, p httprouter.Params) {
-	fmt.Fprint(res, "Hello World")
+func main() {
+	http.ListenAndServe(":3000", app())
 }
 
-func App() http.Handler {
+func app() http.Handler {
 	n := negroni.Classic()
 
 	m := func(res http.ResponseWriter, req *http.Request, next http.HandlerFunc) {
@@ -32,13 +32,13 @@ func App() http.Handler {
 
 	r := httprouter.New()
 
-	r.GET("/", HelloWorld)
+	r.GET("/", helloWorld)
 	n.UseHandler(r)
 	return n
 }
 
-func main() {
-	http.ListenAndServe(":3000", App())
+func helloWorld(res http.ResponseWriter, req *http.Request, p httprouter.Params) {
+	fmt.Fprint(res, "Hello World")
 }
 ```
 
@@ -56,7 +56,7 @@ import (
 )
 
 func Test_App(t *testing.T) {
-	ts := httptest.NewServer(App())
+	ts := httptest.NewServer(app())
 	defer ts.Close()
 
 	res, err := http.Get(ts.URL)

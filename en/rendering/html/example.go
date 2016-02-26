@@ -6,18 +6,18 @@ import (
 	"path"
 )
 
-type Book struct {
+type book struct {
 	Title  string
 	Author string
 }
 
 func main() {
-	http.HandleFunc("/", ShowBooks)
+	http.HandleFunc("/", showBooks)
 	http.ListenAndServe(":8080", nil)
 }
 
-func ShowBooks(w http.ResponseWriter, r *http.Request) {
-	book := Book{"Building Web Apps with Go", "Jeremy Saenz"}
+func showBooks(w http.ResponseWriter, r *http.Request) {
+	b := book{"Building Web Apps with Go", "Jeremy Saenz"}
 
 	fp := path.Join("templates", "index.html")
 	tmpl, err := template.ParseFiles(fp)
@@ -26,7 +26,7 @@ func ShowBooks(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := tmpl.Execute(w, book); err != nil {
+	if err := tmpl.Execute(w, b); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }

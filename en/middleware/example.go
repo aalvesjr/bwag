@@ -11,7 +11,7 @@ func main() {
 	// Middleware stack
 	n := negroni.New(
 		negroni.NewRecovery(),
-		negroni.HandlerFunc(MyMiddleware),
+		negroni.HandlerFunc(myMiddleware),
 		negroni.NewLogger(),
 		negroni.NewStatic(http.Dir("public")),
 	)
@@ -19,7 +19,7 @@ func main() {
 	n.Run(":8080")
 }
 
-func MyMiddleware(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
+func myMiddleware(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
 	log.Println("Logging on the way there...")
 
 	if r.URL.Query().Get("password") == "secret123" {

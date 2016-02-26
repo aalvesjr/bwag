@@ -8,7 +8,7 @@ import (
 )
 
 func Test_App(t *testing.T) {
-	ts := httptest.NewServer(App())
+	ts := httptest.NewServer(app())
 	defer ts.Close()
 
 	res, err := http.Get(ts.URL)

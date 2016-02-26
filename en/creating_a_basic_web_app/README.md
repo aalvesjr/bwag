@@ -59,12 +59,12 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/markdown", GenerateMarkdown)
+	http.HandleFunc("/markdown", generateMarkdown)
 	http.Handle("/", http.FileServer(http.Dir("public")))
 	http.ListenAndServe(":8080", nil)
 }
 
-func GenerateMarkdown(rw http.ResponseWriter, r *http.Request) {
+func generateMarkdown(rw http.ResponseWriter, r *http.Request) {
 	markdown := blackfriday.MarkdownCommon([]byte(r.FormValue("body")))
 	rw.Write(markdown)
 }
@@ -74,7 +74,7 @@ Let's break it down into smaller pieces to get a better idea of what is going
 on.
 
 ``` go
-http.HandleFunc("/markdown", GenerateMarkdown)
+http.HandleFunc("/markdown", generateMarkdown)
 http.Handle("/", http.FileServer(http.Dir("public")))
 ```
 
@@ -88,13 +88,13 @@ This may be more convenient, to think of handling routes via a function
 instead of an object.
 
 ``` go
-func GenerateMarkdown(rw http.ResponseWriter, r *http.Request) {
-    markdown := blackfriday.MarkdownCommon([]byte(r.FormValue("body")))
-    rw.Write(markdown)
+func generateMarkdown(rw http.ResponseWriter, r *http.Request) {
+	markdown := blackfriday.MarkdownCommon([]byte(r.FormValue("body")))
+	rw.Write(markdown)
 }
 ```
 
-Our GenerateMarkdown function implements the standard `http.HandlerFunc`
+Our generateMarkdown function implements the standard `http.HandlerFunc`
 interface and renders HTML from a form field containing
 markdown-formatted text. In this case, the content is retrieved
 with `r.FormValue("body")`. It is very common to get input from the
