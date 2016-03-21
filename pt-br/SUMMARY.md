@@ -13,7 +13,7 @@
    * [Usando o pacote render](rendering/render/README.md)
 * [Testando](testing/README.md)
    * [Testes unitários](testing/unit_testing/README.md)
-   * [Testes fim-a-fim](testing/end_to_end/README.md)
+   * [Testes de ponta-a-ponta](testing/end_to_end/README.md)
 * [Controllers](controllers/README.md)
 * [Banco de Dados](databases/README.md)
 * [Dicas e Truques](tips_and_tricks/README.md)

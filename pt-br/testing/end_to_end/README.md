@@ -1,8 +1,8 @@
-# Testes fim-a-fim
+# Testes de ponta-a-ponta
 
-Testes fim-a-fim nos permitem testar a aplicação ao longo do ciclo inteiro
+Testes de ponta-a-ponta nos permitem testar a aplicação ao longo do ciclo inteiro
 de uma requisição. Enquanto os testes de unidade são feitos para testar
-somente uma função em particular, os testes fim-a-fim rodam as camadas intermediárias,
+somente uma função em particular, os testes de ponta-a-ponta rodam as camadas intermediárias,
 o roteamento e todo tipo de código através do qual uma requisição passa.
 
 ```go
